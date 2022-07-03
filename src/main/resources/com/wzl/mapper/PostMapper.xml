@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzl.mapper.PostMapper">
+
+    <select id="getPostById" parameterType="int" resultType="com.wzl.entity.Post">
+        select * from t_post where id = #{id}
+    </select>
+
+    <select id="getPostsByTitle" parameterType="string"
+            resultType="com.wzl.entity.Post">
+        select * from t_post where title like '%${value}%'
+    </select>
+    <select id="getPostsByImg" parameterType="string"
+            resultType="com.wzl.entity.Post">
+        select * from t_post where img like '%${value}%'
+    </select>
+
+
+    <delete id="deletePost" parameterType="int">
+        delete from t_post where id = #{id}
+    </delete>
+
+    <insert id="addPost" parameterType="com.wzl.entity.Post"
+            useGeneratedKeys="true" keyProperty="id">
+        <!-- keyColumn：要获得哪个列的值
+             keyProperty:查询出来的主键值封装给JavaBean的那个属性
+             order：取值为before，当前SQL在插入SQL之前运行。取值为after，当前SQL在插入SQL之后运行
+             resultType：查出的数据的返回值类型 -->
+        <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert into t_post(title,img,text)
+        values(#{title},#{img},#{text})
+    </insert>
+
+
+    <select id="getPostByCategory" parameterType="int" resultType="com.wzl.entity.Post">
+        select * from t_post
+        where id in
+            (select p_id from t_category_post where c_id = #{c_id})
+    </select>
+
+    <insert id="setCategory" parameterType="int" >
+           insert into t_category_post(c_id,p_id)
+           values(#{c_id},#{p_id})
+
+    </insert>
+
+    <select id="getPostByUser" parameterType="int" resultType="com.wzl.entity.Post">
+        select * from t_post
+        where id in
+              (select p_id from t_user_post where u_id = #{u_id})
+    </select>
+
+    <insert id="setAuthor" parameterType="int" >
+        insert into t_user_post(u_id,p_id)
+        values(#{u_id},#{p_id})
+
+    </insert>
+
+</mapper>

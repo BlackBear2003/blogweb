@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--开启注解扫描，只扫描Controller注解-->
+    <context:component-scan base-package="com.wzl.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+
+    <!-- 配置shiro开启注解支持 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+          depends-on="lifecycleBeanPostProcessor">
+    <property name="proxyTargetClass" value="true"/>
+    </bean>
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="5000000" />
+        <property name="defaultEncoding" value="UTF-8" />
+    </bean>
+
+    <!-- 配置swagger的bean -->
+    <!-- 将静态资源交由默认的servlet处理 -->
+    <mvc:default-servlet-handler/>
+    <!-- 向容器自动注入配置 -->
+    <context:annotation-config/>
+    <!-- 将SwaggerConfig配置类注入 -->
+    <bean class="com.wzl.SwaggerConfig"/>
+    <!-- 配置swagger资源不被拦截 -->
+    <!-- 	<bean id="swagger2Config" class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration"/> -->
+    <mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
+    <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
+
+
+
+
+    <!--配置的视图解析器对象-->
+    <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!--过滤静态资源-->
+    <mvc:resources location="WEB-INF/pages/assets/css/" mapping="/assets/css/**"/>
+    <mvc:resources location="WEB-INF/pages/assets/img/" mapping="/assets/img/**"/>
+    <mvc:resources location="WEB-INF/pages/assets/js/" mapping="/assets/js/**"/>
+    <!--开启SpringMVC注解的支持-->
+    <mvc:annotation-driven/>
+</beans>

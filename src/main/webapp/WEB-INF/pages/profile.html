@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>个人信息</title>
+	<script type="text/javascript"> (function() { var css = document.createElement('link'); css.href = 'https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'; css.rel = 'stylesheet'; css.type = 'text/css'; document.getElementsByTagName('head')[0].appendChild(css); })(); </script>
+	<link rel="stylesheet" href="assets/css/app.css">
+	<link rel="stylesheet" href="assets/css/theme.css">
+	<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+	</script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+	<a id="logo" class="navbar-brand font-weight-bolder mr-3"><img src="assets/img/Blue_Discus.png"></a>
+	<button class="navbar-light navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsDefault"
+			aria-controls="navbarsDefault" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarsDefault">
+		<ul class="navbar-nav mr-auto align-items-center">
+			<form class="bd-search hidden-sm-down"></form>
+			<input type="text" class="form-control bg-graylight border-0 font-weight-bold" id="search-input"
+				   placeholder="搜索..." autocomplete="off">
+			<div class="dropdown-menu bd-search-results" id="search-results">
+			</div>
+		</ul>
+
+		<ul class="navbar-nav ml-auto align-items-center">
+			<li class="nav-item">
+				<a id="toHome" class="nav-link active">主页</a>
+			</li>
+			<li class="nav-item">
+				<a type="button" class="nav-link" data-toggle="modal" data-target="#postModal">发表</a>
+			</li>
+			<li class="nav-item">
+
+				<a id="toProfile" class="nav-link"><img id="userImg" class="rounded-circle mr-2" src="assets/img/av.png"
+															 width="30"><span class="align-middle">个人主页</span></a>
+				<!--上面是头像-->
+			</li>
+			<li class="nav-item dropdown">
+				<a class="nav-link" href="#" id="dropdown02" data-toggle="dropdown" aria-haspopup="true"
+				   aria-expanded="false">
+					<svg style="margin-top:10px;" class="_3DJPT" version="1.1" viewbox="0 0 32 32" width="21"
+						 height="21" aria-hidden="false" data-reactid="71">
+						<path d="M7 15.5c0 1.9-1.6 3.5-3.5 3.5s-3.5-1.6-3.5-3.5 1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5zm21.5-3.5c-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5-1.6-3.5-3.5-3.5zm-12.5 0c-1.9 0-3.5 1.6-3.5 3.5s1.6 3.5 3.5 3.5 3.5-1.6 3.5-3.5-1.6-3.5-3.5-3.5z"
+							  data-reactid="22"></path>
+					</svg>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right shadow-lg" aria-labelledby="dropdown02">
+					<h4 class="dropdown-header display-4">分享我的源代码!<br/> Zhile·Wei from FZU</h4>
+					<div class="dropdown-divider">
+					</div>
+					<span class="dropdown-item"><a href="https://github.com/" class="btn btn-cyan d-block"><i
+							class="fa fa-download"></i> Download</a></span><!--把我的github仓库放进去-->
+				</div>
+			</li>
+		</ul>
+	</div>
+</nav>
+<div class="modal fade" id="postModal">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<!-- 模态框头部 -->
+			<div class="modal-header">
+				<div class="input-group-prepend">
+					<button id="selectCate" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						选择分类
+					</button>
+					<div class="dropdown-menu">
+						<div class = "d-flex flex-column">
+							<input id="category1" class="nav-link" type="button" value="风景">
+							<input id="category2" class="nav-link" type="button" value="美食">
+							<input id="category3" class="nav-link" type="button" value="游戏">
+							<input id="category4" class="nav-link" type="button" value="旅行">
+							<input id="category5" class="nav-link" type="button" value="居家">
+							<input id="category6" class="nav-link" type="button" value="娱乐">
+							<input id="category7" class="nav-link" type="button" value="书画">
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- 模态框主体 -->
+			<div class="modal-body">
+				<input type="text" class="form-control bg-gaslight border-0 font-weight-bold mb-2 mr-2" id="title-input"
+					   placeholder="输入标题" autocomplete="off">
+				<input type="text" class="form-control bg-gaslight border-0 font-weight-bold mb-2 mr-2" id="text-input"
+					   placeholder="输入正文" autocomplete="off">
+				<input id="post_img_input" type="file" accept="image/*"/>
+				<label for="post_img_input" id="post_img_label">选择一张图片
+					<i class="fa fa-plus fa-lg"></i>
+				</label>
+				<div class="preview_box1"></div>
+
+			</div>
+
+			<!-- 模态框底部 -->
+			<div class="modal-footer">
+				<div id="postConfirm" class="m-auto">
+					<button class="btn btn-primary" type="button" value="发表">发表<i class="fa fa-check"></i></button>
+				</div>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭
+
+				</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+    <main role="main">
+        
+    
+    <div id="backgroundImg" class="jumbotron border-round-0 min-50vh" style="background-image:url(assets/img/background/1.jpg)">
+    </div>
+    <div class="container mb-4">
+		<a type="button" data-toggle="modal" data-target="#imgModal">
+			<img id="userImg-big" src="assets/img/av.png" class="mt-neg100 mb-4 rounded-circle" width="200">
+		</a>
+
+		<div class="modal fade" id="imgModal">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<!-- 模态框头部 -->
+					<div class="modal-header">
+						<h4 class="modal-title">更换头像：</h4>
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					</div>
+
+					<!-- 模态框主体 -->
+					<div class="modal-body">
+						<input id="img_input" type="file" accept="image/*"/>
+						<label for="img_input" id="img_label">选择文件
+							<i class="fa fa-plus fa-lg"></i>
+						</label>
+						<div class="preview_box"></div>
+
+					</div>
+
+					<!-- 模态框底部 -->
+					<div class="modal-footer">
+						<div id="changeImgConfirm" class="m-auto">
+							<button class="btn btn-primary" type="button" value="发表">更换<i class="fa fa-check"></i></button>
+						</div>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
+    	<h1 id="userName" class="font-weight-bold title"><a class="btn btn-primary" href="login.html">点击登录</a></h1>
+		<div class="flex-column">
+
+			<p id="userSign">
+				这个人很懒，没有留下什么文字...
+			</p>
+
+		<!-- 按钮：用于打开模态框 -->
+		<button id="changeSignBtn" type="button" class="btn btn-gray200" data-toggle="modal" data-target="#imgModal">
+			更改个性签名
+		</button>
+			<!-- 模态框 -->
+			<div class="modal fade" id="signModal">
+				<div class="modal-dialog">
+					<div class="modal-content">
+
+						<!-- 模态框头部 -->
+						<div class="modal-header">
+							<h4 class="modal-title">点击下方输入：</h4>
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+						</div>
+
+						<!-- 模态框主体 -->
+						<div class="modal-body">
+							<input id="inputSign" type="text" class="form-control bg-graylight border-0 font-weight-bold" placeholder="个性签名...">
+
+						</div>
+
+						<!-- 模态框底部 -->
+						<div class="modal-footer">
+							<div id="changeSignConfirm" class="m-auto">
+								<input class="btn btn-primary" type="button" value="确认">
+							</div>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+
+    <div class="container-fluid mb-5">
+    	<div class="row">
+    		<div class="card-columns">
+    			<div id="card0" class="card card-pin">
+    				<img class="card-img" src="https://images.unsplash.com/photo-1488353816557-87cd574cea04?ixlib=rb-0.3.5&s=06371203b2e3ad3e241c45f4e149a1b3&auto=format&fit=crop&w=334&q=80" alt="Card image">
+    				<div class="overlay">
+    					<h2 class="card-title title">Some Title</h2>
+    					<div class="more">
+    						<a href="post.html">
+    						<i class="fa fa-arrow-circle-o-right" aria-hidden="true"></i> More </a>
+    					</div>
+    				</div>
+    			</div>
+    		</div>
+    	</div>
+    </div>
+        
+    </main>
+
+
+    <script src="assets/js/app.js"></script>
+    <script src="assets/js/theme.js"></script>
+    <script>
+		$("#card0").hide();
+		$(document).ready(function () {
+
+			//背景图片
+			$("#backgroundImg").attr("style","background-image:url(assets/img/background/"+Math.floor(Math.random()*9+1)+".jpg)")
+
+
+			const loginId=sessionStorage.getItem("loginID");
+			//搜索功能
+			$("body").keydown(function(event) {
+				// keyCode=13是回车键
+				if ((event.keyCode == "13"||event.keyCode == "66")&&$("input[type=text]").val()!="") {
+					// 触发 登录按钮被点击的事件
+					let searchtitle=$("input[type=text]").val();
+					console.log(searchtitle);
+					let left = $(".card").length-1;
+					while(left>0){
+						$("#card"+left).remove();
+						left--;
+					}
+					let test = $.getJSON('http://localhost:8090/blogweb_war/post/search',
+							{
+								title: searchtitle
+							}).done(function (data) {
+						// data已经被解析为JSON对象了
+
+						console.log(data);
+						let val1 = data.length;
+						console.log(val1);
+						let t = 1;
+						while (t <= val1) {
+							$("#card0").clone().attr("id", "card" + t).appendTo(".card-columns").show();
+							$("#card" + t).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+							$("#card" + t).children("div").children("h2").text(data[t - 1].title);
+							t += 1;
+						}
+					});
+				}
+			});
+
+			let id =decodeURI(document.URL);
+			id=id.slice(id.indexOf("=")+1);
+			console.log(id);
+
+
+			//个人信息按钮
+			$("#toProfile").click(function () {
+				if(id){
+					window.location.href = "profile.html?id="+loginId;
+				}
+				else{
+					window.location.href = "profile.html"
+				}
+			})
+			$("#logo").click(function () {
+				if(id){
+					window.location.href = "profile.html?id="+id;
+				}
+				else{
+					window.location.href = "profile.html"
+				}
+			})
+			$("#toHome").click(function () {
+				if(id){
+					window.location.href = "index.html";
+				}
+				else{
+					window.location.href = "index.html"
+				}
+			})
+
+
+
+			if(id){
+				//展示详细个人信息
+				$.get("http://localhost:8090/blogweb_war/user/info?id="+id,function (data) {
+					$("#userImg").attr("src","http://localhost:88/upload/"+data.img);
+					$("#userImg-big").attr("src","http://localhost:88/upload/"+data.img);
+					$("#userName").children().remove();
+					$("#userName").append(data.name);
+					$("#userSign").text(data.sign);
+				})
+				//console.log(location.host);是63324
+				//实现展示个人发表过的cards
+				$.get("http://localhost:8090/blogweb_war/post/getByUser?u_id="+id,function (data){
+					let num = data.length;
+					console.log(num);
+					let i =1;
+					while (i <= num) {
+						$("#card0").clone().attr("id", "card" + i).appendTo(".card-columns").show();
+						$("#card" + i).children("img").attr("src", "http://localhost:88/upload/" + data[i - 1].img);
+						$("#card" + i).children("div").children("h2").text(data[i - 1].title);
+						i += 1;
+					}
+				})
+
+				//更换个性签名
+				if(id!==loginId){
+					$("#changeSignBtn").hide();
+					$("#imgModal").remove();
+				}
+				$("#changeSignConfirm").click(function () {
+					let inputSign = $("#inputSign").val();
+					$.post("http://localhost:8090/blogweb_war/user/changeSign",
+							{
+								id:loginId,
+								sign:inputSign
+							},function (data) {
+								alert(data);
+								location.reload();
+							})
+				})
+				//更换头像
+					//检测是否支持File API
+				if (window.File && window.FileReader && window.FileList && window.Blob) {
+					//  支持
+				} else {
+					alert('不支持File API');
+				}
+				$("#img_input").on("change", function(e){
+
+					var file = e.target.files[0]; //获取图片资源
+
+					// 只选择图片文件
+					if (!file.type.match('image.*')) {
+						return false;
+					}
+
+					var reader = new FileReader();
+
+					reader.readAsDataURL(file); // 读取文件
+					// 渲染文件
+					reader.onload = function(arg) {
+						var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+						$(".preview_box").empty().append(img);
+					}
+				});
+				//ajax后端更改SQL
+				$("#changeImgConfirm").click(function () {
+					var form_data = new FormData();
+					var file_data = $("#img_input").prop("files")[0];
+					form_data.append("file", file_data);
+					console.log(file_data);
+					$.ajax({
+						type: 'post',
+						url: "http://localhost:8090/blogweb_war/fileUpload",
+						data: form_data,
+						cache: false,
+						processData: false,
+						contentType: false,
+					}).success(function (imgName) {
+						alert(imgName);
+						console.log(imgName)
+						$.post("http://localhost:8090/blogweb_war/user/changeImg",
+								{
+									id:loginId,
+									img:imgName
+								},function (data) {
+									alert(data);
+									location.reload();
+								})
+					}).error(function () {
+						alert("上传失败");
+					});
+				})
+
+				//发表帖子功能
+				//检测是否支持File API
+				if (window.File && window.FileReader && window.FileList && window.Blob) {
+					//  支持
+				} else {
+					alert('不支持File API');
+				}
+				$("#post_img_input").on("change", function(e){
+
+					var file = e.target.files[0]; //获取图片资源
+
+					// 只选择图片文件
+					if (!file.type.match('image.*')) {
+						return false;
+					}
+
+					var reader = new FileReader();
+
+					reader.readAsDataURL(file); // 读取文件
+					// 渲染文件
+					reader.onload = function(arg) {
+						var img = '<img class="preview" src="' + arg.target.result + '" alt="preview"/>';
+						$(".preview_box1").empty().append(img);
+					}
+				});
+				let postCate = 0;
+				$("#category1").click(function (){
+					$("#selectCate").text($("#category1").val());
+					postCate=1;
+				})
+				$("#category2").click(function (){
+					$("#selectCate").text($("#category2").val());
+					postCate=2;
+
+				})
+				$("#category3").click(function (){
+					$("#selectCate").text($("#category3").val());
+					postCate=3;
+				})
+				$("#category4").click(function (){
+					$("#selectCate").text($("#category4").val());
+					postCate=4;
+				})
+				$("#category5").click(function (){
+					$("#selectCate").text($("#category5").val());
+					postCate=5;
+				})
+				$("#category6").click(function (){
+					$("#selectCate").text($("#category6").val());
+					postCate=6;
+				})
+				$("#category7").click(function (){
+					$("#selectCate").text($("#category7").val());
+					postCate=7;
+				})
+
+
+				$("#postConfirm").click(function () {
+					var form_data = new FormData();
+					var file_data = $("#post_img_input").prop("files")[0];
+					let title = $("#title-input").val();
+					let text = $("#text-input").val();
+					console.log(title);
+					console.log(text);
+					form_data.append("file", file_data);
+					console.log(file_data);
+					$.ajax({
+						type: 'post',
+						url: "http://localhost:8090/blogweb_war/fileUpload",
+						data: form_data,
+						cache: false,
+						processData: false,
+						contentType: false,
+					}).success(function (imgName) {
+						alert(imgName);
+						console.log(imgName)
+
+						$.post("http://localhost:8090/blogweb_war/post/",
+								{
+									title:title,
+									img:imgName,
+									text:text
+								},function (data) {
+
+									console.log(data);
+									$.post("http://localhost:8090/blogweb_war/post/setAuthor",
+											{
+												u_id:loginId,
+												p_id:data
+											},function (status) {
+												alert("setAuthor:"+status);
+											}
+									)
+									console.log(postCate)
+									$.post("http://localhost:8090/blogweb_war/post/setCategory",
+											{
+												c_id:postCate,
+												p_id:data
+											},function (status) {
+												alert("setCategory:"+status);
+												location.reload()
+											}
+									)
+
+								})
+
+
+						alert("发表成功！");
+
+					})
+				}).error(function () {
+					alert("上传失败");
+				});
+			}
+
+		})
+
+
+
+	</script>
+
+</body>
+    
+</html>

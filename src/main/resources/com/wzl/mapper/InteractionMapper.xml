@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wzl.mapper.InteractionMapper">
+
+    <select id="getThumbByPostId" parameterType="int" resultType="int">
+        SELECT count(p_id) as count FROM t_thumb where p_id = #{id}
+    </select>
+
+    <select id="getPostsByUserThumb" parameterType="int"
+            resultType="com.wzl.entity.Post">
+        select * from t_post where id in
+            (select p_id from t_thumb where u_id = #{id})
+    </select>
+
+    <insert id="doThumb" parameterType="int">
+        insert into t_thumb (u_id,p_id)
+        values (#{u_id},#{p_id})
+    </insert>
+
+    <delete id="removeThumb" parameterType="int">
+        delete from t_thumb where u_id = #{u_id} and p_id = #{p_id}
+    </delete>
+
+    <insert id="addComment" parameterType="com.wzl.entity.Comment"
+            useGeneratedKeys="true" keyProperty="id">
+        <!-- keyColumn：要获得哪个列的值
+             keyProperty:查询出来的主键值封装给JavaBean的那个属性
+             order：取值为before，当前SQL在插入SQL之前运行。取值为after，当前SQL在插入SQL之后运行
+             resultType：查出的数据的返回值类型 -->
+        <selectKey keyColumn="id" keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id();
+        </selectKey>
+        insert into t_comment(u_id,p_id,text)
+        values(#{u_id},#{p_id},#{text})
+    </insert>
+
+    <delete id="deleteComment" parameterType="int">
+        delete from t_comment where id = #{id}
+    </delete>
+
+    <select id="getCommentByPostId" parameterType="int" resultType="com.wzl.entity.Comment">
+        select * from t_comment
+        where p_id = #{p_id}
+    </select>
+
+    <select id="getUserIdByPostId" parameterType="int" resultType="int">
+        select u_id from t_user_post
+        where p_id = #{p_id}
+    </select>
+
+
+</mapper>
