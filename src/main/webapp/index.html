@@ -358,10 +358,11 @@
                 // 触发 登录按钮被点击的事件
                 let searchtitle=$("input[type=text]").val();
                 //console.log(searchtitle);
+                let cards = $(".card");
                 let left = $(".card").length-1;
-                while(left>0){
-                    $("#card"+left).remove();
-                    left--;
+                let temp1=1;
+                while(temp1<left){
+                    cards[temp1++].remove();
                 }
                 let test = $.getJSON('/blogweb_war/post/search',
                     {
@@ -392,10 +393,11 @@
 
         //分类功能
         $("#7").click(function (  ) {
+            let cards = $(".card");
             let left = $(".card").length-1;
-            while(left>0){
-                $("#card"+left).remove();
-                left--;
+            let temp1=1;
+            while(temp1<left){
+                cards[temp1++].remove();
             }
             let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
@@ -417,10 +419,11 @@
             });
         })
         $("#6").click(function (  ) {
+            let cards = $(".card");
             let left = $(".card").length-1;
-            while(left>0){
-                $("#card"+left).remove();
-                left--;
+            let temp1=1;
+            while(temp1<left){
+                cards[temp1++].remove();
             }
             let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
@@ -442,10 +445,11 @@
             });
         })
         $("#5").click(function (  ) {
+            let cards = $(".card");
             let left = $(".card").length-1;
-            while(left>0){
-                $("#card"+left).remove();
-                left--;
+            let temp1=1;
+            while(temp1<left){
+                cards[temp1++].remove();
             }
             let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
@@ -467,10 +471,11 @@
             });
         })
         $("#4").click(function (  ) {
+            let cards = $(".card");
             let left = $(".card").length-1;
-            while(left>0){
-                $("#card"+left).remove();
-                left--;
+            let temp1=1;
+            while(temp1<left){
+                cards[temp1++].remove();
             }
             let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
@@ -492,10 +497,11 @@
             });
         })
         $("#3").click(function (  ) {
+            let cards = $(".card");
             let left = $(".card").length-1;
-            while(left>0){
-                $("#card"+left).remove();
-                left--;
+            let temp1=1;
+            while(temp1<left){
+                cards[temp1++].remove();
             }
             let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
@@ -517,10 +523,11 @@
             });
         })
         $("#2").click(function (  ) {
+            let cards = $(".card");
             let left = $(".card").length-1;
-            while(left>0){
-                $("#card"+left).remove();
-                left--;
+            let temp1=1;
+            while(temp1<left){
+                cards[temp1++].remove();
             }
             let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
@@ -542,10 +549,11 @@
             });
         })
         $("#1").click(function (  ) {
+            let cards = $(".card");
             let left = $(".card").length-1;
-            while(left>0){
-                $("#card"+left).remove();
-                left--;
+            let temp1=1;
+            while(temp1<left){
+                cards[temp1++].remove();
             }
             let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
