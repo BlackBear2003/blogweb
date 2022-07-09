@@ -8,6 +8,13 @@
          version="3.0">
   <display-name>Archetype Created Web Application</display-name>
 
+
+  <!-- 打开springMVC静态资源拦截器，不拦截swagger下的资源 -->
+  <servlet-mapping>
+    <servlet-name>default</servlet-name>
+    <url-pattern>/swagger/*</url-pattern>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
   <!--配置前端控制器-->
   <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
@@ -25,11 +32,7 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
-  <!-- 打开springMVC静态资源拦截器，不拦截swagger下的资源 -->
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>/swagger/*</url-pattern>
-  </servlet-mapping>
+
 
   <!--配置Spring的监听器，默认只加载WEB-INF目录下的applicationContext.xml配置文件-->
   <listener>

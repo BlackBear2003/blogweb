@@ -35,7 +35,7 @@
 				<a id="toHome" class="nav-link active">主页</a>
 			</li>
 			<li class="nav-item">
-				<a type="button" class="nav-link" data-toggle="modal" data-target="#postModal">发表</a>
+				<a id="post-btn" type="button" class="nav-link" data-toggle="modal" data-target="#postModal">发表</a>
 			</li>
 			<li class="nav-item">
 
@@ -216,13 +216,13 @@
 		p_id=p_id.slice(p_id.indexOf("=")+1);
 
 		//帖子主要信息显示
-		$.get("http://localhost:8090/blogweb_war/post/?p_id="+p_id,function (data) {
+		$.get("/blogweb_war/post?p_id="+p_id,function (data) {
 			$("#mainCardText").text(data.text);
 			$("#mainCardTitle").text(data.title);
-			$("#mainCardImg").attr("src","http://localhost:88/upload/" + data.img);
-			$.get("http://localhost:8090/blogweb_war/post/getPoster?p_id="+p_id,function (u_id) {
-				$.get("http://localhost:8090/blogweb_war/user/info?id="+u_id,function (data) {
-					$("#posterImg").attr("src","http://localhost:88/upload/" + data.img);
+			$("#mainCardImg").attr("src","http://"+window.location.hostname+":80/upload/" + data.img);
+			$.get("/blogweb_war/post/getPoster?p_id="+p_id,function (u_id) {
+				$.get("/blogweb_war/user/info?id="+u_id,function (data) {
+					$("#posterImg").attr("src","http://"+window.location.hostname+":80/upload/" + data.img);
 				})
 			})
 		})
@@ -232,14 +232,14 @@
 
 		//test Session
 		const loginId = sessionStorage.getItem("loginID");
-		console.log("session has loginID = " + loginId)
+		//console.log("session has loginID = " + loginId)
 
 		//完成登陆后主界面个人信息的展示
 		console.log(loginId);
 		if (loginId) {
-			$.get("http://localhost:8090/blogweb_war/user/info?id=" + loginId, function (data) {
+			$.get("/blogweb_war/user/info?id=" + loginId, function (data) {
 				$("#hellotitle").text(data.name + ",你好！");
-				$("#userImg").attr("src", "http://localhost:88/upload/" + data.img);
+				$("#userImg").attr("src", "http://"+window.location.hostname+":80/upload/" + data.img);
 			})
 		}
 
@@ -267,6 +267,14 @@
 			}
 		})
 		//发表帖子功能
+
+		$("#post-btn").click(function () {
+			if(loginId==null){
+				window.location.href = "login.html"
+				alert("您还未登录！")
+			}
+		})
+
 		//检测是否支持File API
 		if (window.File && window.FileReader && window.FileList && window.Blob) {
 			//  支持
@@ -328,44 +336,44 @@
 			var file_data = $("#img_input").prop("files")[0];
 			let title = $("#title-input").val();
 			let text = $("#text-input").val();
-			console.log(title);
-			console.log(text);
+			//console.log(title);
+			//console.log(text);
 			form_data.append("file", file_data);
-			console.log(file_data);
+			//console.log(file_data);
 			$.ajax({
 				type: 'post',
-				url: "http://localhost:8090/blogweb_war/fileUpload",
+				url: "/blogweb_war/fileUpload",
 				data: form_data,
 				cache: false,
 				processData: false,
 				contentType: false,
 			}).success(function (imgName) {
-				alert(imgName);
-				console.log(imgName)
+				//alert(imgName);
+				//console.log(imgName)
 
-				$.post("http://localhost:8090/blogweb_war/post/",
+				$.post("/blogweb_war/post",
 						{
 							title: title,
 							img: imgName,
 							text: text
 						}, function (data) {
 
-							console.log(data);
-							$.post("http://localhost:8090/blogweb_war/post/setAuthor",
+							//console.log(data);
+							$.post("/blogweb_war/post/setAuthor",
 									{
 										u_id: loginId,
 										p_id: data
 									}, function (status) {
-										alert("setAuthor:" + status);
+										//alert("setAuthor:" + status);
 									}
 							)
-							console.log(postCate)
-							$.post("http://localhost:8090/blogweb_war/post/setCategory",
+							//console.log(postCate)
+							$.post("/blogweb_war/post/setCategory",
 									{
 										c_id: postCate,
 										p_id: data
 									}, function (status) {
-										alert("setCategory:" + status);
+										//alert("setCategory:" + status);
 										location.reload()
 									}
 							)
@@ -385,7 +393,7 @@
 		//检测是否点过
 
 		//
-		$.get("http://localhost:8090/blogweb_war/post/thumb?id="+p_id,function (data) {
+		$.get("/blogweb_war/post/thumb?id="+p_id,function (data) {
 			$("#thumb-btn").html("<i class=\"fa fa-thumbs-up\"></i>"+data)
 		})
 
@@ -394,7 +402,7 @@
 			$("#thumb-btn").click(alert("您已经点过赞啦！"));
 		}else{
 			$("#thumb-btn").click(function () {
-				$.post("http://localhost:8090/blogweb_war/post/thumb",
+				$.post("/blogweb_war/post/thumb",
 						{
 							u_id:loginId,
 							p_id:p_id

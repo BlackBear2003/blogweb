@@ -53,9 +53,9 @@
         <property name="suffix" value=".jsp"/>
     </bean>
     <!--过滤静态资源-->
-    <mvc:resources location="WEB-INF/pages/assets/css/" mapping="/assets/css/**"/>
-    <mvc:resources location="WEB-INF/pages/assets/img/" mapping="/assets/img/**"/>
-    <mvc:resources location="WEB-INF/pages/assets/js/" mapping="/assets/js/**"/>
+    <mvc:resources location="assets/css/" mapping="/assets/css/**"/>
+    <mvc:resources location="assets/img/" mapping="/assets/img/**"/>
+    <mvc:resources location="assets/js/" mapping="/assets/js/**"/>
     <!--开启SpringMVC注解的支持-->
     <mvc:annotation-driven/>
 </beans>

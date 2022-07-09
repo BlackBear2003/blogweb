@@ -32,7 +32,7 @@ public class UploadController {
         // 获得项目的路径
         ServletContext sc = request.getSession().getServletContext();
         // 上传位置
-        String path ="E:\\nginx-1.21.6\\html\\images\\";
+        String path ="C:\\nginx-1.22.0\\html\\images\\";
         File f = new File(path);
         if (!f.exists())
             f.mkdirs();

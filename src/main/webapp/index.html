@@ -39,7 +39,7 @@
                 <a id="toHome" class="nav-link active">主页</a>
             </li>
             <li class="nav-item">
-                <a type="button" class="nav-link" data-toggle="modal" data-target="#postModal">发表</a>
+                <a id="post-btn" type="button" class="nav-link" data-toggle="modal" data-target="#postModal">发表</a>
             </li>
             <li class="nav-item">
 
@@ -197,9 +197,9 @@
         //完成登陆后主界面个人信息的展示
         console.log(loginId);
         if (loginId) {
-            $.get("http://localhost:8090/blogweb_war/user/info?id=" + loginId, function (data) {
+            $.get("/blogweb_war/user/info?id=" + loginId, function (data) {
                 $("#hellotitle").text(data.name + ",你好！");
-                $("#userImg").attr("src", "http://localhost:88/upload/" + data.img);
+                $("#userImg").attr("src", "http://"+window.location.hostname+":80/upload/" + data.img);
             })
         }
 
@@ -227,6 +227,15 @@
             }
         })
         //发表帖子功能
+
+        $("#post-btn").click(function () {
+            if(loginId==null){
+                window.location.href = "login.html"
+                alert("您还未登录！")
+            }
+        })
+
+
         //检测是否支持File API
         if (window.File && window.FileReader && window.FileList && window.Blob) {
             //  支持
@@ -294,38 +303,39 @@
             console.log(file_data);
             $.ajax({
                 type: 'post',
-                url: "http://localhost:8090/blogweb_war/fileUpload",
+                url: "/blogweb_war/fileUpload",
                 data: form_data,
                 cache: false,
                 processData: false,
                 contentType: false,
             }).success(function (imgName) {
-                alert(imgName);
-                console.log(imgName)
+                //alert(imgName);
+                //console.log(imgName)
 
-                $.post("http://localhost:8090/blogweb_war/post/",
+                $.post("/blogweb_war/post",
                     {
                         title: title,
                         img: imgName,
                         text: text
                     }, function (data) {
 
-                        console.log(data);
-                        $.post("http://localhost:8090/blogweb_war/post/setAuthor",
+                        //console.log(data);
+                        $.post("/blogweb_war/post/setAuthor",
                             {
                                 u_id: loginId,
                                 p_id: data
                             }, function (status) {
-                                alert("setAuthor:" + status);
+                                //alert("setAuthor:" + status);
                             }
                         )
                         console.log(postCate)
-                        $.post("http://localhost:8090/blogweb_war/post/setCategory",
+                        $.post("/blogweb_war/post/setCategory",
                             {
                                 c_id: postCate,
                                 p_id: data
                             }, function (status) {
-                                alert("setCategory:" + status);
+                                //alert("setCategory:" + status);
+                                alert("发表成功！");
                                 location.reload()
                             }
                         )
@@ -333,7 +343,7 @@
                     })
 
 
-                alert("发表成功！");
+
 
             })
         }).error(function () {
@@ -347,13 +357,13 @@
             if ((event.keyCode == "13"||event.keyCode == "66")&&$("input[type=text]").val()!="") {
                 // 触发 登录按钮被点击的事件
                 let searchtitle=$("input[type=text]").val();
-                console.log(searchtitle);
+                //console.log(searchtitle);
                 let left = $(".card").length-1;
                 while(left>0){
                     $("#card"+left).remove();
                     left--;
                 }
-                let test = $.getJSON('http://localhost:8090/blogweb_war/post/search',
+                let test = $.getJSON('/blogweb_war/post/search',
                     {
                         title: searchtitle
                     }).done(function (data) {
@@ -365,7 +375,7 @@
                     let t = 1;
                     while (t <= val1) {
                         $("#card0").clone().attr("id", "card" + data[t - 1].id).appendTo(".card-columns").show();
-                        $("#card" + data[t - 1].id).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+                        $("#card" + data[t - 1].id).children("img").attr("src", "http://"+window.location.hostname+":80/upload/" + data[t - 1].img);
                         $("#card" + data[t - 1].id).children("div").children("h2").text(data[t - 1].title);
                         $("#card" + data[t - 1].id).children("div").children("div").children("a").attr("href","post.html?p_id="+data[t - 1].id);
                         t += 1;
@@ -387,7 +397,7 @@
                 $("#card"+left).remove();
                 left--;
             }
-            let stat = $.getJSON('http://localhost:8090/blogweb_war/post/getByCategory',
+            let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
                     c_id: "7"
                 }).done(function (data) {
@@ -399,7 +409,7 @@
                 let t = 1;
                 while (t <= val1) {
                     $("#card0").clone().attr("id", "card" + data[t - 1].id).appendTo(".card-columns").show();
-                    $("#card" + data[t - 1].id).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+                    $("#card" + data[t - 1].id).children("img").attr("src", "http://"+window.location.hostname+":80/upload/" + data[t - 1].img);
                     $("#card" + data[t - 1].id).children("div").children("h2").text(data[t - 1].title);
                     $("#card" + data[t - 1].id).children("div").children("div").children("a").attr("href","post.html?p_id="+data[t - 1].id);
                     t += 1;
@@ -412,7 +422,7 @@
                 $("#card"+left).remove();
                 left--;
             }
-            let stat = $.getJSON('http://localhost:8090/blogweb_war/post/getByCategory',
+            let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
                     c_id: "6"
                 }).done(function (data) {
@@ -424,7 +434,7 @@
                 let t = 1;
                 while (t <= val1) {
                     $("#card0").clone().attr("id", "card" + data[t - 1].id).appendTo(".card-columns").show();
-                    $("#card" + data[t - 1].id).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+                    $("#card" + data[t - 1].id).children("img").attr("src", "http://"+window.location.hostname+":80/upload/" + data[t - 1].img);
                     $("#card" + data[t - 1].id).children("div").children("h2").text(data[t - 1].title);
                     $("#card" + data[t - 1].id).children("div").children("div").children("a").attr("href","post.html?p_id="+data[t - 1].id);
                     t += 1;
@@ -437,7 +447,7 @@
                 $("#card"+left).remove();
                 left--;
             }
-            let stat = $.getJSON('http://localhost:8090/blogweb_war/post/getByCategory',
+            let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
                     c_id: "5"
                 }).done(function (data) {
@@ -449,7 +459,7 @@
                 let t = 1;
                 while (t <= val1) {
                     $("#card0").clone().attr("id", "card" + data[t - 1].id).appendTo(".card-columns").show();
-                    $("#card" + data[t - 1].id).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+                    $("#card" + data[t - 1].id).children("img").attr("src", "http://"+window.location.hostname+":80/upload/" + data[t - 1].img);
                     $("#card" + data[t - 1].id).children("div").children("h2").text(data[t - 1].title);
                     $("#card" + data[t - 1].id).children("div").children("div").children("a").attr("href","post.html?p_id="+data[t - 1].id);
                     t += 1;
@@ -462,7 +472,7 @@
                 $("#card"+left).remove();
                 left--;
             }
-            let stat = $.getJSON('http://localhost:8090/blogweb_war/post/getByCategory',
+            let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
                     c_id: "4"
                 }).done(function (data) {
@@ -474,7 +484,7 @@
                 let t = 1;
                 while (t <= val1) {
                     $("#card0").clone().attr("id", "card" + data[t - 1].id).appendTo(".card-columns").show();
-                    $("#card" + data[t - 1].id).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+                    $("#card" + data[t - 1].id).children("img").attr("src", "http://"+window.location.hostname+":80/upload/" + data[t - 1].img);
                     $("#card" + data[t - 1].id).children("div").children("h2").text(data[t - 1].title);
                     $("#card" + data[t - 1].id).children("div").children("div").children("a").attr("href","post.html?p_id="+data[t - 1].id);
                     t += 1;
@@ -487,7 +497,7 @@
                 $("#card"+left).remove();
                 left--;
             }
-            let stat = $.getJSON('http://localhost:8090/blogweb_war/post/getByCategory',
+            let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
                     c_id: "3"
                 }).done(function (data) {
@@ -499,7 +509,7 @@
                 let t = 1;
                 while (t <= val1) {
                     $("#card0").clone().attr("id", "card" + data[t - 1].id).appendTo(".card-columns").show();
-                    $("#card" + data[t - 1].id).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+                    $("#card" + data[t - 1].id).children("img").attr("src", "http://"+window.location.hostname+":80/upload/" + data[t - 1].img);
                     $("#card" + data[t - 1].id).children("div").children("h2").text(data[t - 1].title);
                     $("#card" + data[t - 1].id).children("div").children("div").children("a").attr("href","post.html?p_id="+data[t - 1].id);
                     t += 1;
@@ -512,7 +522,7 @@
                 $("#card"+left).remove();
                 left--;
             }
-            let stat = $.getJSON('http://localhost:8090/blogweb_war/post/getByCategory',
+            let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
                     c_id: "2"
                 }).done(function (data) {
@@ -524,7 +534,7 @@
                 let t = 1;
                 while (t <= val1) {
                     $("#card0").clone().attr("id", "card" + data[t - 1].id).appendTo(".card-columns").show();
-                    $("#card" + data[t - 1].id).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+                    $("#card" + data[t - 1].id).children("img").attr("src", "http://"+window.location.hostname+":80/upload/" + data[t - 1].img);
                     $("#card" + data[t - 1].id).children("div").children("h2").text(data[t - 1].title);
                     $("#card" + data[t - 1].id).children("div").children("div").children("a").attr("href","post.html?p_id="+data[t - 1].id);
                     t += 1;
@@ -537,7 +547,7 @@
                 $("#card"+left).remove();
                 left--;
             }
-            let stat = $.getJSON('http://localhost:8090/blogweb_war/post/getByCategory',
+            let stat = $.getJSON('/blogweb_war/post/getByCategory',
                 {
                     c_id: "1"
                 }).done(function (data) {
@@ -549,7 +559,7 @@
                 let t = 1;
                 while (t <= val1) {
                     $("#card0").clone().attr("id", "card" + data[t - 1].id).appendTo(".card-columns").show();
-                    $("#card" + data[t - 1].id).children("img").attr("src", "http://localhost:88/upload/" + data[t - 1].img);
+                    $("#card" + data[t - 1].id).children("img").attr("src", "http://"+window.location.hostname+":80/upload/" + data[t - 1].img);
                     $("#card" + data[t - 1].id).children("div").children("h2").text(data[t - 1].title);
                     $("#card" + data[t - 1].id).children("div").children("div").children("a").attr("href","post.html?p_id="+data[t - 1].id);
                     t += 1;

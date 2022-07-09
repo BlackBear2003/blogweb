@@ -22,12 +22,12 @@ public class PostController {
     @Autowired
     InteractionServiceImpl interactionService;
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     public Post getPostById(int p_id) throws SQLException {
         return postService.getPostById(p_id);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public int doPost(String title,String img,String text) throws SQLException {
         int returnID=0;
         if(postService.addPost(title, img, text)==1){

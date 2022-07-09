@@ -23,7 +23,7 @@ public class RegisterController {
         int n = userService.addUser(name, password,img,sign);
         //roleService.addRole(n);
 
-        System.out.println("new user's id = "+n);
+        //System.out.println("new user's id = "+n);
         return "register_successful";
 
     }

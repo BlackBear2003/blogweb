@@ -29,7 +29,7 @@ public class LoginController {
 
     @GetMapping(value="/login")
     public String getLogin(){
-        return "/WEB-INF/pages/login.html";
+        return "login.html";
     }
 
     @ResponseBody
